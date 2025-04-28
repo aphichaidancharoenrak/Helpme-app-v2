@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "HelpMe",
+    "name": "HelpMe Notes",
     "slug": "helpme-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.helpme.app"
+      "package": "com.helpme.notes"
     },
     "web": {
       "favicon": "./assets/favicon.png"

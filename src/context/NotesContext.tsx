@@ -1,20 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Note } from '../src/types';
+import { Note } from '../types/note';
 
 interface NotesContextType {
   notes: Note[];
   addNote: (note: Omit<Note, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
   updateNote: (id: string, note: Partial<Note>) => Promise<void>;
   deleteNote: (id: string) => Promise<void>;
-  loading: boolean;
 }
 
 const NotesContext = createContext<NotesContextType | undefined>(undefined);
 
 export const NotesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadNotes();
@@ -28,8 +26,6 @@ export const NotesProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
     } catch (error) {
       console.error('Error loading notes:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -41,22 +37,28 @@ export const NotesProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const addNote = async (noteData: Omit<Note, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const addNote = async (note: Omit<Note, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const now = new Date().toISOString();
     const newNote: Note = {
-      ...noteData,
+      ...note,
       id: Date.now().toString(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: now,
+      updatedAt: now,
     };
     const updatedNotes = [...notes, newNote];
     setNotes(updatedNotes);
     await saveNotes(updatedNotes);
   };
 
-  const updateNote = async (id: string, noteData: Partial<Note>) => {
+  const updateNote = async (id: string, updatedFields: Partial<Note>) => {
+    const now = new Date().toISOString();
     const updatedNotes = notes.map(note =>
       note.id === id
-        ? { ...note, ...noteData, updatedAt: new Date() }
+        ? {
+            ...note,
+            ...updatedFields,
+            updatedAt: now,
+          }
         : note
     );
     setNotes(updatedNotes);
@@ -76,7 +78,6 @@ export const NotesProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         addNote,
         updateNote,
         deleteNote,
-        loading,
       }}
     >
       {children}
