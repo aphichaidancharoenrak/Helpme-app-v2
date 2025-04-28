@@ -3,7 +3,7 @@ Name: Aphicha Dancharoenrak
 Student ID: 6631503047    
 App Name: Helpme    
 Framework Used: React Native(expo)    
-GitHub Repository: https://github.com/aphichaidancharoenrak/Helpme-app.git     
+GitHub Repository: https://github.com/aphichaidancharoenrak/Helpme-app-v2.git     
 APK/IPA: https://drive.google.com/file/d/1nfQAtDxNIpS0Fp3Cmpf7XApcHwY20vtE/view    
 1.1 Personas   
 Persona 1:
